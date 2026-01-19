@@ -1,0 +1,90 @@
+\begin{thebibliography}{11}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Adelani et~al.(2023)Adelani, Liu, Shen, Schwenk, and
+  Neubig]{adelani2023sib200}
+David~Ifeoluwa Adelani, Hannah Liu, Xiaoyu Shen, Holger Schwenk, and Graham
+  Neubig.
+\newblock {SIB-200}: A simple, inclusive, and big evaluation dataset for topic
+  classification in 200+ languages and dialects.
+\newblock \emph{arXiv preprint arXiv:2309.07445}, 2023.
+
+\bibitem[Asai et~al.(2023)Asai, Kudugunta, Yu, Blevins, Gonen, Fitzgerald,
+  Neubig, and Zettlemoyer]{asai2023buffet}
+Akari Asai, Sneha Kudugunta, Xinyan~Velocity Yu, Terra Blevins, Hila Gonen,
+  Machel Fitzgerald, Graham Neubig, and Luke Zettlemoyer.
+\newblock {BUFFET}: Benchmarking large language models for few-shot
+  cross-lingual transfer.
+\newblock \emph{arXiv preprint arXiv:2305.14857}, 2023.
+
+\bibitem[Brown et~al.(2020)Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal,
+  Neelakantan, Shyam, Sastry, Askell, et~al.]{brown2020language}
+Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared~D Kaplan, Prafulla
+  Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell,
+  et~al.
+\newblock Language models are few-shot learners.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  33:\penalty0 1877--1901, 2020.
+
+\bibitem[Conneau et~al.(2018)Conneau, Rinott, Lample, Williams, Bowman,
+  Schwenk, and Stoyanov]{conneau2018xnli}
+Alexis Conneau, Rupert Rinott, Guillaume Lample, Adina Williams, Samuel Bowman,
+  Holger Schwenk, and Veselin Stoyanov.
+\newblock {XNLI}: Evaluating cross-lingual sentence representations.
+\newblock In \emph{Proceedings of the 2018 Conference on Empirical Methods in
+  Natural Language Processing}, pages 2475--2485, 2018.
+
+\bibitem[Conneau et~al.(2019)Conneau, Khandelwal, Goyal, Chaudhary, Wenzek,
+  Guzm{\'a}n, Grave, Ott, Zettlemoyer, and Stoyanov]{conneau2019xlmr}
+Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume
+  Wenzek, Francisco Guzm{\'a}n, Edouard Grave, Myle Ott, Luke Zettlemoyer, and
+  Veselin Stoyanov.
+\newblock {Unsupervised Cross-lingual Representation Learning at Scale}.
+\newblock \emph{arXiv preprint arXiv:1911.02116}, 2019.
+
+\bibitem[Hu et~al.(2020)Hu, Ruder, Siddhant, Neubig, Firat, and
+  Johnson]{hu2020xtreme}
+Junjie Hu, Sebastian Ruder, Aditya Siddhant, Graham Neubig, Orhan Firat, and
+  Melvin Johnson.
+\newblock {XTREME}: A massively multilingual multi-task benchmark for
+  evaluating cross-lingual generalisation.
+\newblock In \emph{International Conference on Machine Learning}, pages
+  4411--4421. PMLR, 2020.
+
+\bibitem[Liu et~al.(2024)Liu, Zhang, Zhao, Luu, and Bing]{liu2024translation}
+Chaoqun Liu, Wenxuan Zhang, Yiran Zhao, Anh~Tuan Luu, and Lidong Bing.
+\newblock Is translation all you need? a study on solving multilingual tasks
+  with large language models.
+\newblock \emph{arXiv preprint arXiv:2403.10258}, 2024.
+
+\bibitem[{OpenAI}(2023)]{openai2023gpt4}
+{OpenAI}.
+\newblock {GPT-4} technical report.
+\newblock \emph{arXiv preprint arXiv:2303.08774}, 2023.
+
+\bibitem[Wendler et~al.(2024)Wendler, Veselovsky, Monea, and
+  West]{wendler2024llamas}
+Chris Wendler, Veniamin Veselovsky, Giovanni Monea, and Robert West.
+\newblock Do llamas work in english? on the latent language of multilingual
+  transformers.
+\newblock \emph{arXiv preprint arXiv:2402.10588}, 2024.
+
+\bibitem[Williams et~al.(2018)Williams, Nangia, and Bowman]{williams2018mnli}
+Adina Williams, Nikita Nangia, and Samuel Bowman.
+\newblock A broad-coverage challenge corpus for sentence understanding through
+  inference.
+\newblock In \emph{Proceedings of the 2018 Conference of the North American
+  Chapter of the Association for Computational Linguistics: Human Language
+  Technologies}, pages 1112--1122, 2018.
+
+\bibitem[Zhang et~al.(2023)Zhang, Li, Hauer, Shi, and Kondrak]{zhang2023dont}
+Xiang Zhang, Senyu Li, Bradley Hauer, Ning Shi, and Grzegorz Kondrak.
+\newblock Don't trust {ChatGPT} when your question is not in english: A study
+  of multilingual abilities and types of {LLM}s.
+\newblock \emph{arXiv preprint arXiv:2305.16339}, 2023.
+
+\end{thebibliography}

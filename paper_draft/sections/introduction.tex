@@ -1,0 +1,44 @@
+\section{Introduction}
+
+Large Language Models (LLMs) have demonstrated remarkable capabilities across a wide range of natural language processing tasks, from question answering to complex reasoning \citep{brown2020language, openai2023gpt4}. These models are increasingly being deployed at national scale in non-English-speaking countries, with partnerships emerging between AI companies and governments worldwide. However, a fundamental tension exists: end-users expect high-quality responses in their native languages, while these models are predominantly trained on English data.
+
+This English-centric training paradigm raises critical questions about cross-lingual performance equity. Do models truly understand multiple languages, or do they implicitly translate non-English inputs into an internal English representation before reasoning? Recent mechanistic interpretability work by \citet{wendler2024llamas} suggests that Llama-2 may use English as an internal ``pivot language,'' with intermediate layers decoding English tokens even when processing non-English inputs. If such behavior generalizes to other frontier models, it has profound implications for how we deploy and evaluate LLMs globally.
+
+\subsection{Motivation}
+
+The motivation for this work stems from three interconnected concerns:
+
+\textbf{Equitable AI Deployment.} As LLMs become infrastructure for information access, healthcare, education, and government services, performance disparities across languages translate directly into disparities in service quality for billions of non-English speakers.
+
+\textbf{Scientific Understanding.} Understanding whether models employ implicit internal translation mechanisms illuminates fundamental questions about how neural networks represent meaning and whether language-agnostic conceptual representations are achievable.
+
+\textbf{Practical Model Improvement.} Identifying where and why multilingual capabilities fall short provides actionable guidance for training more balanced models.
+
+\subsection{Research Questions}
+
+We address four primary research questions:
+
+\begin{itemize}
+    \item \textbf{RQ1:} Is there a measurable performance gap between English and other languages in state-of-the-art LLMs?
+    \item \textbf{RQ2:} Does a translate-to-English approach improve performance, suggesting internal English-centric processing?
+    \item \textbf{RQ3:} Are there consistent patterns across language families, with typologically distant languages suffering greater performance degradation?
+    \item \textbf{RQ4:} Do different models (GPT-4.1 vs.\ Claude Sonnet 4.5) exhibit similar or different multilingual performance patterns?
+\end{itemize}
+
+\subsection{Contributions}
+
+This paper makes the following contributions:
+
+\begin{enumerate}
+    \item \textbf{Cross-model comparison:} We provide the first systematic comparison of multilingual performance between GPT-4.1 and Claude Sonnet 4.5 on standardized benchmarks, revealing that models exhibit qualitatively different patterns of English-centric bias.
+
+    \item \textbf{Behavioral evidence for internal translation:} We demonstrate that translating non-English inputs to English before model processing dramatically improves performance for some languages (up to +14.7\% for Chinese and Arabic in Claude), providing behavioral evidence that these models may internally process concepts closer to English.
+
+    \item \textbf{Language family analysis:} We show that performance degradation correlates with typological distance from English, with Indo-European languages consistently outperforming Sino-Tibetan, Afro-Asiatic, and Niger-Congo families.
+
+    \item \textbf{Practical recommendations:} Based on our findings, we provide actionable guidance for deploying LLMs in multilingual contexts, including when to employ translate-first pipelines.
+\end{enumerate}
+
+\subsection{Paper Organization}
+
+The remainder of this paper is organized as follows. Section~\ref{sec:related_work} reviews related work on multilingual LLM evaluation and the English pivot hypothesis. Section~\ref{sec:methodology} describes our experimental methodology, including datasets, models, and evaluation protocols. Section~\ref{sec:results} presents our experimental results with detailed analysis by language and language family. Section~\ref{sec:discussion} discusses implications, limitations, and broader impact. Section~\ref{sec:conclusion} concludes with a summary of findings and directions for future work.

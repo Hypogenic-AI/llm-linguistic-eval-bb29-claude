@@ -1,0 +1,188 @@
+\section{Results}
+\label{sec:results}
+
+We present results addressing our four research questions: the English-to-other-language performance gap (RQ1), the effect of translate-test evaluation (RQ2), patterns across language families (RQ3), and cross-model comparisons (RQ4).
+
+\subsection{Direct Evaluation Performance (RQ1)}
+
+Table~\ref{tab:direct_results} presents accuracy on XNLI for both models across all 10 languages under direct evaluation.
+
+\begin{table}[h]
+\centering
+\caption{Direct evaluation accuracy (\%) on XNLI. Bold indicates the better model for each language.}
+\label{tab:direct_results}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Language} & \textbf{GPT-4.1} & \textbf{Claude Sonnet 4.5} & \textbf{Difference} \\
+\midrule
+English & 80.0 & \textbf{85.3} & +5.3 \\
+German & \textbf{80.0} & \textbf{86.7} & +6.7 \\
+French & 77.3 & \textbf{88.0} & +10.7 \\
+Spanish & 78.7 & \textbf{82.7} & +4.0 \\
+Russian & 70.7 & \textbf{76.0} & +5.3 \\
+Turkish & 77.3 & \textbf{82.7} & +5.4 \\
+\midrule
+Chinese & \textbf{76.0} & 70.7 & $-5.3$ \\
+Arabic & \textbf{76.0} & 70.7 & $-5.3$ \\
+Swahili & \textbf{81.3} & 72.0 & $-9.3$ \\
+Hindi & 70.7 & \textbf{73.3} & +2.6 \\
+\midrule
+\textbf{Average} & 76.8 & \textbf{78.8} & +2.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Finding 1: Both models show measurable performance gaps.} Neither model achieves its English performance consistently across other languages. GPT-4.1 shows an average gap of 3.56\% from English to other languages, while Claude shows a larger average gap of 7.25\%.
+
+\textbf{Finding 2: Claude excels at European languages but struggles elsewhere.} Claude achieves its highest performance on French (88.0\%), German (86.7\%), and English (85.3\%)---all Indo-European languages with Latin script. However, Claude underperforms GPT-4.1 substantially on Chinese ($-5.3\%$), Arabic ($-5.3\%$), and especially Swahili ($-9.3\%$).
+
+\textbf{Finding 3: GPT-4.1 shows more consistent cross-lingual performance.} GPT-4.1's performance ranges from 70.7\% (Hindi, Russian) to 81.3\% (Swahili), a spread of 10.6 percentage points. Claude's performance ranges from 70.7\% (Chinese, Arabic) to 88.0\% (French), a spread of 17.3 percentage points.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/accuracy_comparison.png}
+\caption{Direct evaluation accuracy comparison between GPT-4.1 and Claude Sonnet 4.5 across 10 languages. Claude shows higher variance with strong European language performance but weaker non-European performance.}
+\label{fig:accuracy_comparison}
+\end{figure}
+
+\subsection{Performance Gap Analysis}
+
+Table~\ref{tab:performance_gap} quantifies the English-centric bias through performance gap metrics.
+
+\begin{table}[h]
+\centering
+\caption{Performance gap analysis: English accuracy minus target language accuracy.}
+\label{tab:performance_gap}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Language} & \textbf{GPT-4.1 Gap} & \textbf{Claude Gap} \\
+\midrule
+German & 0.0 & $-1.4$ \\
+French & +2.7 & $-2.7$ \\
+Spanish & +1.3 & +2.6 \\
+Russian & +9.3 & +9.3 \\
+Turkish & +2.7 & +2.6 \\
+Chinese & +4.0 & +14.6 \\
+Arabic & +4.0 & +14.6 \\
+Swahili & $-1.3$ & +13.3 \\
+Hindi & +9.3 & +12.0 \\
+\midrule
+\textbf{Average Gap} & 3.56 & 7.25 \\
+\textbf{Max Gap} & 9.33 & 14.66 \\
+\textbf{Most Affected} & Hindi, Russian & Chinese, Arabic \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The performance gap analysis reveals that Claude exhibits stronger English-centric bias: its average gap (7.25\%) is more than double that of GPT-4.1 (3.56\%). More striking is the maximum gap: Claude's worst-performing languages (Chinese, Arabic) show a 14.66\% drop from English, compared to GPT-4.1's maximum gap of 9.33\%.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.75\textwidth]{figures/performance_gap_heatmap.png}
+\caption{Performance gap heatmap showing the difference between English accuracy and each target language. Darker colors indicate larger gaps. Claude shows more pronounced gaps for non-European languages.}
+\label{fig:performance_gap}
+\end{figure}
+
+\subsection{Translate-Test Effect (RQ2)}
+
+Table~\ref{tab:translate_test} presents the translate gain---the improvement (or degradation) when using English parallel samples instead of native language samples.
+
+\begin{table}[h]
+\centering
+\caption{Translate-test effect: Accuracy change when using English parallel samples. Positive values indicate translation helps. All translate-test evaluations yielded 85.33\% accuracy for Claude.}
+\label{tab:translate_test}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Language} & \textbf{GPT-4.1 Change} & \textbf{Claude Change} \\
+\midrule
+German & $-2.7$ & $-1.3$ \\
+French & +1.3 & $-2.7$ \\
+Spanish & $-1.3$ & +2.7 \\
+\midrule
+Chinese & +2.7 & \textbf{+14.7} \\
+Arabic & 0.0 & \textbf{+14.7} \\
+Swahili & $-1.3$ & \textbf{+13.3} \\
+Hindi & +8.0 & \textbf{+12.0} \\
+Russian & +5.3 & \textbf{+9.3} \\
+Turkish & +2.7 & +2.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Finding 4: Translate-test dramatically improves Claude's non-European performance.} For Claude, translating to English yields substantial improvements for:
+\begin{itemize}
+    \item Chinese: +14.7\% (70.7\% $\rightarrow$ 85.3\%)
+    \item Arabic: +14.7\% (70.7\% $\rightarrow$ 85.3\%)
+    \item Swahili: +13.3\% (72.0\% $\rightarrow$ 85.3\%)
+    \item Hindi: +12.0\% (73.3\% $\rightarrow$ 85.3\%)
+    \item Russian: +9.3\% (76.0\% $\rightarrow$ 85.3\%)
+\end{itemize}
+
+\textbf{Finding 5: European languages show minimal translate-test effect.} For both models, Western European languages (German, French, Spanish) show small or even negative translate-test effects. This suggests these languages may already benefit from shared features with English training data.
+
+\textbf{Finding 6: GPT-4.1 shows smaller, more variable translate-test effects.} GPT-4.1's translate gains are smaller in magnitude and less systematic, with the largest gain being +8.0\% for Hindi.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\textwidth]{figures/translate_test_effect.png}
+\caption{Translate-test effect by language and model. The asymmetric effect for Claude---large gains for non-European languages, minimal effect for European languages---provides behavioral evidence for English-centric processing.}
+\label{fig:translate_test}
+\end{figure}
+
+\subsection{Language Family Analysis (RQ3)}
+
+We aggregate results by language family to test whether typological distance from English predicts performance degradation.
+
+\begin{table}[h]
+\centering
+\caption{Performance by language family. Indo-European languages are subdivided by branch.}
+\label{tab:family_analysis}
+\begin{tabular}{llcc}
+\toprule
+\textbf{Family} & \textbf{Languages} & \textbf{GPT-4.1} & \textbf{Claude} \\
+\midrule
+Indo-European (Germanic) & English, German & 80.0 & 86.0 \\
+Indo-European (Romance) & French, Spanish & 78.0 & 85.4 \\
+Indo-European (Slavic) & Russian & 70.7 & 76.0 \\
+Indo-European (Indo-Aryan) & Hindi & 70.7 & 73.3 \\
+\midrule
+Turkic & Turkish & 77.3 & 82.7 \\
+Sino-Tibetan & Chinese & 76.0 & 70.7 \\
+Afro-Asiatic & Arabic & 76.0 & 70.7 \\
+Niger-Congo & Swahili & 81.3 & 72.0 \\
+\midrule
+\textbf{Indo-European Avg} & & 74.9 & 80.2 \\
+\textbf{Non-Indo-European Avg} & & 77.6 & 74.5 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Finding 7: Claude shows clear Indo-European preference.} Claude performs substantially better on Indo-European languages (80.2\% average) than non-Indo-European languages (74.5\% average), a 5.7 percentage point difference. Within Indo-European, Germanic and Romance branches perform best.
+
+\textbf{Finding 8: GPT-4.1 shows no Indo-European preference.} Surprisingly, GPT-4.1 performs slightly \emph{better} on non-Indo-European languages (77.6\%) than Indo-European (74.9\%), driven largely by strong Swahili performance (81.3\%).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.75\textwidth]{figures/language_family_analysis.png}
+\caption{Performance breakdown by language family, illustrating Claude's strong Indo-European preference and GPT-4.1's more uniform distribution.}
+\label{fig:family_analysis}
+\end{figure}
+
+\subsection{Cross-Model Comparison (RQ4)}
+
+Figure~\ref{fig:model_radar} visualizes the performance profiles of both models across all languages.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/model_comparison_radar.png}
+\caption{Radar chart comparing GPT-4.1 and Claude Sonnet 4.5 across all 10 languages. Claude shows a more ``European-pointed'' profile while GPT-4.1 shows a more uniform distribution.}
+\label{fig:model_radar}
+\end{figure}
+
+\textbf{Finding 9: Models exhibit qualitatively different multilingual profiles.}
+\begin{itemize}
+    \item \textbf{Claude}: High peak performance (88.0\% French), strong European languages, weak non-European languages, high variance, strong English-centric bias.
+    \item \textbf{GPT-4.1}: More uniform performance (70.7\%--81.3\%), better non-European handling, lower variance, weaker English-centric bias.
+\end{itemize}
+
+\textbf{Finding 10: Overall average masks important differences.} While Claude achieves higher average accuracy (78.8\% vs.\ 76.8\%), this masks the fact that GPT-4.1 provides more equitable service across languages. For global deployment where consistent cross-lingual performance matters, GPT-4.1's lower variance may be preferable despite lower peak performance.

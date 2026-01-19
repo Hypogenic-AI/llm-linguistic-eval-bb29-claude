@@ -1,0 +1,106 @@
+\section{Methodology}
+\label{sec:methodology}
+
+We describe our experimental setup, including the models evaluated, dataset, languages, evaluation protocols, and metrics.
+
+\subsection{Models}
+
+We evaluate two state-of-the-art large language models representing different organizational approaches to LLM development:
+
+\textbf{GPT-4.1} (OpenAI): A frontier model from OpenAI accessed via their API. GPT-4 and its variants have demonstrated strong performance across a wide range of NLP tasks and support numerous languages.
+
+\textbf{Claude Sonnet 4.5} (Anthropic): A recent model from Anthropic accessed via OpenRouter. Claude models are trained with Constitutional AI and represent an alternative approach to alignment and capability development.
+
+Both models are closed-source, precluding mechanistic interpretability analysis. Our behavioral approach provides complementary insights that apply to any model regardless of architecture access.
+
+\subsection{Dataset}
+
+We use the Cross-lingual Natural Language Inference (XNLI) benchmark \citep{conneau2018xnli}, which extends the MultiNLI corpus \citep{williams2018mnli} to 15 languages through professional human translation. XNLI provides parallel test sets across languages, ensuring that performance differences reflect model capabilities rather than dataset artifacts.
+
+\textbf{Task Description.} Given a premise sentence and a hypothesis sentence, the model must classify their relationship as:
+\begin{itemize}
+    \item \textbf{Entailment}: The hypothesis is necessarily true given the premise.
+    \item \textbf{Contradiction}: The hypothesis is necessarily false given the premise.
+    \item \textbf{Neutral}: The hypothesis may or may not be true given the premise.
+\end{itemize}
+
+\textbf{Sample Size.} We evaluate on 75 samples per language, selected to provide sufficient statistical power for detecting meaningful performance differences while managing API costs. This yields 750 evaluations per model for direct evaluation across 10 languages.
+
+\subsection{Languages}
+
+We select 10 languages spanning 6 language families to test whether performance degradation correlates with typological distance from English:
+
+\begin{table}[h]
+\centering
+\caption{Languages evaluated, organized by language family.}
+\label{tab:languages}
+\begin{tabular}{llll}
+\toprule
+\textbf{Family} & \textbf{Branch} & \textbf{Language} & \textbf{Script} \\
+\midrule
+Indo-European & Germanic & English (en) & Latin \\
+Indo-European & Germanic & German (de) & Latin \\
+Indo-European & Romance & French (fr) & Latin \\
+Indo-European & Romance & Spanish (es) & Latin \\
+Indo-European & Slavic & Russian (ru) & Cyrillic \\
+Indo-European & Indo-Aryan & Hindi (hi) & Devanagari \\
+Sino-Tibetan & Sinitic & Chinese (zh) & Han \\
+Afro-Asiatic & Semitic & Arabic (ar) & Arabic \\
+Niger-Congo & Bantu & Swahili (sw) & Latin \\
+Turkic & Oghuz & Turkish (tr) & Latin \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+This selection includes: (1) languages closely related to English (German), (2) European languages with Latin script (French, Spanish), (3) European languages with non-Latin script (Russian), (4) major world languages with distinct scripts (Chinese, Arabic, Hindi), and (5) languages from underrepresented families (Swahili, Turkish).
+
+\subsection{Evaluation Protocol}
+
+We employ two evaluation methods to test our hypotheses:
+
+\subsubsection{Direct Evaluation}
+
+In direct evaluation, prompts and examples are presented entirely in the target language. We use localized prompt templates with native-language instructions:
+
+\textbf{English:} ``Given a premise and hypothesis, determine if the relationship is: entailment, contradiction, or neutral.''
+
+\textbf{Chinese:} Localized Chinese prompt asking the same question using Han characters.
+
+\textbf{Arabic:} Localized Arabic prompt asking the same question using Arabic script.
+
+Each prompt was professionally translated to ensure natural phrasing and correct terminology for the NLI task. This ensures that any performance differences reflect the model's ability to process the target language rather than instruction-following failures.
+
+\subsubsection{Translate-Test Evaluation}
+
+In translate-test evaluation, we use the parallel English samples from XNLI. This simulates a ``translate first, then reason'' pipeline: the model receives semantically equivalent content in English regardless of the original language.
+
+Comparing translate-test to direct evaluation reveals whether explicit translation improves performance. If a model performs better on translated (English) inputs than native inputs for the same logical content, this suggests the model's internal representations may be closer to English.
+
+\subsection{Evaluation Metrics}
+
+\textbf{Accuracy.} Our primary metric is classification accuracy---the proportion of correctly classified premise-hypothesis pairs.
+
+\textbf{Performance Gap (PG).} We define the performance gap as the difference between English accuracy and target language accuracy:
+\begin{equation}
+    \text{PG}(L) = \text{Acc}(\text{English}) - \text{Acc}(L)
+\end{equation}
+Positive values indicate English outperforms language $L$.
+
+\textbf{Translate Gain (TG).} We define translate gain as the improvement from translate-test over direct evaluation:
+\begin{equation}
+    \text{TG}(L) = \text{Acc}_{\text{translate}}(L) - \text{Acc}_{\text{direct}}(L)
+\end{equation}
+Positive values indicate that translation to English helps performance.
+
+\subsection{Experimental Procedure}
+
+For each model and each language, we:
+\begin{enumerate}
+    \item Load 75 XNLI samples with their labels.
+    \item Construct prompts in the target language with localized instructions.
+    \item Query the model and extract predictions.
+    \item Compute accuracy against gold labels.
+    \item Repeat with English parallel samples for translate-test evaluation.
+\end{enumerate}
+
+All experiments were conducted between January 15--18, 2026. We used temperature 0 for all API calls to ensure reproducibility.

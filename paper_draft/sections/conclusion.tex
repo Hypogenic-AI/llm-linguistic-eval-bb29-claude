@@ -1,0 +1,36 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper presents a systematic evaluation of cross-lingual performance in two state-of-the-art large language models---GPT-4.1 and Claude Sonnet 4.5---revealing significant English-centric bias with distinct patterns across models and language families.
+
+\subsection{Summary of Contributions}
+
+We make four primary contributions:
+
+\textbf{1. Quantified cross-lingual performance gaps.} We demonstrate measurable performance degradation from English to other languages in both models, with average gaps of 3.56\% (GPT-4.1) and 7.25\% (Claude). Maximum gaps reach 9.33\% and 14.66\% respectively, concentrated in non-Indo-European languages.
+
+\textbf{2. Behavioral evidence for English-centric processing.} Through translate-test evaluation, we show that translating inputs to English dramatically improves performance for non-European languages in Claude (up to +14.7\% for Chinese and Arabic) while providing minimal benefit for European languages. This asymmetric effect suggests models may internally process concepts through English-centric pathways.
+
+\textbf{3. Language family analysis.} We identify systematic patterns: Claude shows strong preference for Indo-European languages (especially Germanic and Romance branches), while GPT-4.1 shows more uniform cross-lingual performance. Non-Latin scripts correlate with larger translate-test gains.
+
+\textbf{4. Practical recommendations.} We provide actionable guidance for multilingual deployment, including when translate-first pipelines may be beneficial and how model choice should depend on target language demographics.
+
+\subsection{Key Takeaways}
+
+For practitioners: evaluate models on your specific target languages rather than relying on aggregate metrics. Consider translate-first pipelines for non-European languages when using Claude. For global deployment, GPT-4.1's more uniform performance may be preferable despite lower peak accuracy.
+
+For model developers: the translate-test methodology provides a simple diagnostic for English-centric bias applicable to any model. Balanced multilingual training and improved tokenization for non-Latin scripts are promising directions for reducing this bias.
+
+\subsection{Future Work}
+
+Several directions merit further investigation:
+
+\textbf{Mechanistic analysis.} While we provide behavioral evidence, mechanistic interpretability techniques applied to open-source models could verify the internal translation hypothesis.
+
+\textbf{Expanded language coverage.} Testing additional languages, particularly from under-represented families (Austronesian, Dravidian, Tai-Kadai), would strengthen generalization claims.
+
+\textbf{Task diversity.} Extending this analysis to generation tasks, question answering, and reasoning benchmarks would reveal whether the patterns we observe are task-general.
+
+\textbf{Longitudinal tracking.} As models are updated, tracking how English-centric bias evolves would inform training practices.
+
+The rapid global deployment of LLMs makes cross-lingual equity an urgent concern. We hope this work contributes to understanding and ultimately reducing the performance disparities that disadvantage billions of non-English speakers.

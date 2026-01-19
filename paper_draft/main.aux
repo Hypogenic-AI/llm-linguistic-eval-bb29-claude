@@ -1,0 +1,105 @@
+\relax 
+\citation{brown2020language,openai2023gpt4}
+\citation{wendler2024llamas}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation}{2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Research Questions}{2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Contributions}{2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Paper Organization}{2}\protected@file@percent }
+\citation{conneau2018xnli}
+\citation{hu2020xtreme}
+\citation{adelani2023sib200}
+\citation{asai2023buffet}
+\citation{wendler2024llamas}
+\citation{zhang2023dont}
+\citation{liu2024translation}
+\citation{conneau2019xlmr}
+\citation{wendler2024llamas}
+\citation{zhang2023dont}
+\citation{liu2024translation}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Related Work}{3}\protected@file@percent }
+\newlabel{sec:related_work}{{2}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Multilingual Benchmarks and Evaluation}{3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}The English Pivot Hypothesis}{3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Translation-Based Approaches}{3}\protected@file@percent }
+\citation{conneau2018xnli}
+\citation{williams2018mnli}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Positioning Our Work}{4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methodology}{4}\protected@file@percent }
+\newlabel{sec:methodology}{{3}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Models}{4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Dataset}{4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Languages}{4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Languages evaluated, organized by language family.}}{5}\protected@file@percent }
+\newlabel{tab:languages}{{1}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Evaluation Protocol}{5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Direct Evaluation}{5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Translate-Test Evaluation}{5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Evaluation Metrics}{5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Experimental Procedure}{5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{6}\protected@file@percent }
+\newlabel{sec:results}{{4}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Direct Evaluation Performance (RQ1)}{6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Direct evaluation accuracy (\%) on XNLI. Bold indicates the better model for each language.}}{6}\protected@file@percent }
+\newlabel{tab:direct_results}{{2}{6}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Performance Gap Analysis}{6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Direct evaluation accuracy comparison between GPT-4.1 and Claude Sonnet 4.5 across 10 languages. Claude shows higher variance with strong European language performance but weaker non-European performance.}}{7}\protected@file@percent }
+\newlabel{fig:accuracy_comparison}{{1}{7}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Performance gap analysis: English accuracy minus target language accuracy.}}{7}\protected@file@percent }
+\newlabel{tab:performance_gap}{{3}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Translate-Test Effect (RQ2)}{7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Translate-test effect: Accuracy change when using English parallel samples. Positive values indicate translation helps. All translate-test evaluations yielded 85.33\% accuracy for Claude.}}{7}\protected@file@percent }
+\newlabel{tab:translate_test}{{4}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Performance gap heatmap showing the difference between English accuracy and each target language. Darker colors indicate larger gaps. Claude shows more pronounced gaps for non-European languages.}}{8}\protected@file@percent }
+\newlabel{fig:performance_gap}{{2}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Translate-test effect by language and model. The asymmetric effect for Claude---large gains for non-European languages, minimal effect for European languages---provides behavioral evidence for English-centric processing.}}{8}\protected@file@percent }
+\newlabel{fig:translate_test}{{3}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Language Family Analysis (RQ3)}{8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Performance by language family. Indo-European languages are subdivided by branch.}}{9}\protected@file@percent }
+\newlabel{tab:family_analysis}{{5}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Performance breakdown by language family, illustrating Claude's strong Indo-European preference and GPT-4.1's more uniform distribution.}}{9}\protected@file@percent }
+\newlabel{fig:family_analysis}{{4}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Cross-Model Comparison (RQ4)}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{9}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Radar chart comparing GPT-4.1 and Claude Sonnet 4.5 across all 10 languages. Claude shows a more ``European-pointed'' profile while GPT-4.1 shows a more uniform distribution.}}{10}\protected@file@percent }
+\newlabel{fig:model_radar}{{5}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Evidence for the ``Translate-Then-Reason'' Hypothesis}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Model-Specific Interpretations}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Implications for Practitioners}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Implications for Model Developers}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Limitations}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6}Broader Impact}{12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{12}\protected@file@percent }
+\newlabel{sec:conclusion}{{6}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Summary of Contributions}{12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Key Takeaways}{12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Future Work}{12}\protected@file@percent }
+\bibstyle{plainnat}
+\bibdata{references}
+\bibcite{adelani2023sib200}{{1}{2023}{{Adelani et~al.}}{{Adelani, Liu, Shen, Schwenk, and Neubig}}}
+\bibcite{asai2023buffet}{{2}{2023}{{Asai et~al.}}{{Asai, Kudugunta, Yu, Blevins, Gonen, Fitzgerald, Neubig, and Zettlemoyer}}}
+\bibcite{brown2020language}{{3}{2020}{{Brown et~al.}}{{Brown, Mann, Ryder, Subbiah, Kaplan, Dhariwal, Neelakantan, Shyam, Sastry, Askell, et~al.}}}
+\bibcite{conneau2018xnli}{{4}{2018}{{Conneau et~al.}}{{Conneau, Rinott, Lample, Williams, Bowman, Schwenk, and Stoyanov}}}
+\bibcite{conneau2019xlmr}{{5}{2019}{{Conneau et~al.}}{{Conneau, Khandelwal, Goyal, Chaudhary, Wenzek, Guzm{\'a}n, Grave, Ott, Zettlemoyer, and Stoyanov}}}
+\bibcite{hu2020xtreme}{{6}{2020}{{Hu et~al.}}{{Hu, Ruder, Siddhant, Neubig, Firat, and Johnson}}}
+\bibcite{liu2024translation}{{7}{2024}{{Liu et~al.}}{{Liu, Zhang, Zhao, Luu, and Bing}}}
+\bibcite{openai2023gpt4}{{8}{2023}{{OpenAI}}{{}}}
+\bibcite{wendler2024llamas}{{9}{2024}{{Wendler et~al.}}{{Wendler, Veselovsky, Monea, and West}}}
+\bibcite{williams2018mnli}{{10}{2018}{{Williams et~al.}}{{Williams, Nangia, and Bowman}}}
+\bibcite{zhang2023dont}{{11}{2023}{{Zhang et~al.}}{{Zhang, Li, Hauer, Shi, and Kondrak}}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Raw Experimental Results}{14}\protected@file@percent }
+\newlabel{app:raw_results}{{A}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}GPT-4.1 Direct Evaluation}{14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces GPT-4.1 direct evaluation results on XNLI.}}{14}\protected@file@percent }
+\newlabel{tab:gpt4_raw}{{6}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Claude Sonnet 4.5 Direct Evaluation}{14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Claude Sonnet 4.5 direct evaluation results on XNLI.}}{14}\protected@file@percent }
+\newlabel{tab:claude_raw}{{7}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.3}Translate-Test Results}{14}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.4}Performance Gap Summary}{14}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Translate-test results: accuracy when using English parallel samples. The ``Direct'' column shows original performance, ``Translate'' shows performance with English input, and ``Gain'' shows the difference.}}{15}\protected@file@percent }
+\newlabel{tab:translate_test_raw}{{8}{15}}
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Performance gap summary: positive values indicate English outperforms the target language.}}{15}\protected@file@percent }
+\newlabel{tab:gap_summary}{{9}{15}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.5}Experimental Metadata}{15}\protected@file@percent }

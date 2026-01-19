@@ -1,0 +1,32 @@
+\section{Related Work}
+\label{sec:related_work}
+
+Our work builds on three streams of research: multilingual benchmarks and evaluation, the English pivot hypothesis in LLMs, and translation-based approaches to multilingual NLP.
+
+\subsection{Multilingual Benchmarks and Evaluation}
+
+The evaluation of multilingual capabilities in language models has been enabled by a series of increasingly comprehensive benchmarks. \citet{conneau2018xnli} introduced XNLI, extending the MultiNLI corpus to 15 languages with professional translations, providing a standardized testbed for cross-lingual natural language inference. This was followed by XTREME \citep{hu2020xtreme}, a massively multilingual benchmark covering 40 languages and 9 diverse tasks, which revealed significant performance gaps between English and other languages, particularly for syntactic tasks and languages from underrepresented families.
+
+More recently, SIB-200 \citep{adelani2023sib200} extended evaluation to 205 languages and dialects, demonstrating that languages unseen during pretraining, from underrepresented families, or from Africa, the Americas, Oceania, and Southeast Asia exhibit the lowest performance. BUFFET \citep{asai2023buffet} introduced few-shot cross-lingual transfer evaluation across 54 languages, finding that ChatGPT with in-context learning often performs worse than smaller fine-tuned multilingual models like mT5.
+
+Our work complements these benchmarks by focusing on a detailed comparison between two leading proprietary models, with particular attention to the translate-test paradigm as a diagnostic tool.
+
+\subsection{The English Pivot Hypothesis}
+
+A growing body of work investigates whether multilingual models internally rely on English as a pivot language. \citet{wendler2024llamas} provided the first mechanistic evidence for this hypothesis, using the ``logit lens'' technique to analyze intermediate representations in Llama-2. They identified three distinct phases in forward pass processing: (1) representations far from any output embedding, (2) English tokens decoded from intermediate layers even for non-English inputs, and (3) final output in the target language. This suggests that the model's abstract ``concept space'' lies closer to English than other languages.
+
+\citet{zhang2023dont} proposed a framework categorizing LLM multilingualism into compound, coordinate, and subordinate types, analogous to human bilingualism research. They introduced the Response Back-Translation (RBT) method and found that GPT models achieve higher performance when tasks are presented in English, consistent with subordinate bilingualism where one language dominates.
+
+Unlike these works that focus on model internals or propose theoretical frameworks, we provide behavioral evidence through the translate-test paradigm: if translating to English first improves performance, it suggests the model internally operates closer to English.
+
+\subsection{Translation-Based Approaches}
+
+The question of whether translation is ``all you need'' for multilingual NLP has received renewed attention with the rise of LLMs. \citet{liu2024translation} conducted a comprehensive evaluation comparing translate-to-English approaches versus native language prompting across 24 languages. They found that translation to English improves performance on NLP benchmarks for English-centric LLMs, but is not universally optimal---culture-related tasks benefit from native language prompting.
+
+XLM-RoBERTa \citep{conneau2019xlmr} demonstrated that large-scale multilingual pretraining on 2TB of CommonCrawl data across 100 languages yields strong cross-lingual transfer, suggesting that sufficiently large models can develop meaningful multilingual representations. However, even such models show performance gaps favoring high-resource languages.
+
+Our work differs from prior translation studies by using the translate-test effect as a \emph{diagnostic} for English-centric bias rather than a proposed solution. The asymmetric effect we observe---large gains for non-European languages but minimal effect for European languages---provides insight into the internal organization of multilingual representations in these models.
+
+\subsection{Positioning Our Work}
+
+Unlike prior work that either (1) focuses on mechanistic interpretability of open-source models \citep{wendler2024llamas}, (2) proposes general frameworks without extensive empirical validation \citep{zhang2023dont}, or (3) treats translation as a practical strategy \citep{liu2024translation}, we provide a systematic behavioral study of English-centric bias in two leading proprietary models. Our translate-test methodology serves as a diagnostic tool that reveals differential English-centricity across models and languages, complementing mechanistic approaches that cannot be applied to closed-source systems.

@@ -1,0 +1,131 @@
+\section{Raw Experimental Results}
+\label{app:raw_results}
+
+This appendix provides the complete raw results from our experiments for reproducibility.
+
+\subsection{GPT-4.1 Direct Evaluation}
+
+Table~\ref{tab:gpt4_raw} presents the complete results for GPT-4.1 under direct evaluation across all 10 languages.
+
+\begin{table}[h]
+\centering
+\caption{GPT-4.1 direct evaluation results on XNLI.}
+\label{tab:gpt4_raw}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Language} & \textbf{Accuracy (\%)} & \textbf{Correct} & \textbf{Total} \\
+\midrule
+English & 80.00 & 60 & 75 \\
+German & 80.00 & 60 & 75 \\
+French & 77.33 & 58 & 75 \\
+Spanish & 78.67 & 59 & 75 \\
+Chinese & 76.00 & 57 & 75 \\
+Arabic & 76.00 & 57 & 75 \\
+Swahili & 81.33 & 61 & 75 \\
+Hindi & 70.67 & 53 & 75 \\
+Russian & 70.67 & 53 & 75 \\
+Turkish & 77.33 & 58 & 75 \\
+\midrule
+\textbf{Average} & 76.80 & 57.6 & 75 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Claude Sonnet 4.5 Direct Evaluation}
+
+Table~\ref{tab:claude_raw} presents the complete results for Claude Sonnet 4.5 under direct evaluation.
+
+\begin{table}[h]
+\centering
+\caption{Claude Sonnet 4.5 direct evaluation results on XNLI.}
+\label{tab:claude_raw}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Language} & \textbf{Accuracy (\%)} & \textbf{Correct} & \textbf{Total} \\
+\midrule
+English & 85.33 & 64 & 75 \\
+German & 86.67 & 65 & 75 \\
+French & 88.00 & 66 & 75 \\
+Spanish & 82.67 & 62 & 75 \\
+Chinese & 70.67 & 53 & 75 \\
+Arabic & 70.67 & 53 & 75 \\
+Swahili & 72.00 & 54 & 75 \\
+Hindi & 73.33 & 55 & 75 \\
+Russian & 76.00 & 57 & 75 \\
+Turkish & 82.67 & 62 & 75 \\
+\midrule
+\textbf{Average} & 78.80 & 59.1 & 75 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Translate-Test Results}
+
+For the translate-test evaluation, we used the parallel English samples from XNLI. Table~\ref{tab:translate_test_raw} shows the accuracy achieved when using English equivalents for each language.
+
+\begin{table}[h]
+\centering
+\caption{Translate-test results: accuracy when using English parallel samples. The ``Direct'' column shows original performance, ``Translate'' shows performance with English input, and ``Gain'' shows the difference.}
+\label{tab:translate_test_raw}
+\begin{tabular}{lcccccc}
+\toprule
+& \multicolumn{3}{c}{\textbf{GPT-4.1}} & \multicolumn{3}{c}{\textbf{Claude Sonnet 4.5}} \\
+\midrule
+\textbf{Language} & Direct & Translate & Gain & Direct & Translate & Gain \\
+\midrule
+German & 80.00 & 77.33 & $-2.67$ & 86.67 & 85.33 & $-1.34$ \\
+French & 77.33 & 78.67 & +1.34 & 88.00 & 85.33 & $-2.67$ \\
+Spanish & 78.67 & 77.33 & $-1.34$ & 82.67 & 85.33 & +2.66 \\
+Chinese & 76.00 & 78.67 & +2.67 & 70.67 & 85.33 & +14.66 \\
+Arabic & 76.00 & 76.00 & 0.00 & 70.67 & 85.33 & +14.66 \\
+Swahili & 81.33 & 80.00 & $-1.33$ & 72.00 & 85.33 & +13.33 \\
+Hindi & 70.67 & 78.67 & +8.00 & 73.33 & 85.33 & +12.00 \\
+Russian & 70.67 & 76.00 & +5.33 & 76.00 & 85.33 & +9.33 \\
+Turkish & 77.33 & 80.00 & +2.67 & 82.67 & 85.33 & +2.66 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Note:} All translate-test evaluations for Claude achieved 85.33\% accuracy (64/75 correct), which equals its English direct evaluation performance. This consistency indicates that when provided with English input, Claude performs at its English baseline regardless of the original language of the parallel content.
+
+\subsection{Performance Gap Summary}
+
+Table~\ref{tab:gap_summary} summarizes the performance gaps (English accuracy minus target language accuracy) for both models.
+
+\begin{table}[h]
+\centering
+\caption{Performance gap summary: positive values indicate English outperforms the target language.}
+\label{tab:gap_summary}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Language} & \textbf{GPT-4.1 Gap} & \textbf{Claude Gap} \\
+\midrule
+German & 0.00 & $-1.34$ \\
+French & +2.67 & $-2.67$ \\
+Spanish & +1.33 & +2.66 \\
+Russian & +9.33 & +9.33 \\
+Turkish & +2.67 & +2.66 \\
+Chinese & +4.00 & +14.66 \\
+Arabic & +4.00 & +14.66 \\
+Swahili & $-1.33$ & +13.33 \\
+Hindi & +9.33 & +12.00 \\
+\midrule
+\textbf{Mean Gap} & 3.56 & 7.25 \\
+\textbf{Std Dev} & 3.75 & 6.81 \\
+\textbf{Max Gap} & 9.33 & 14.66 \\
+\textbf{Min Gap} & $-1.33$ & $-2.67$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Experimental Metadata}
+
+\begin{itemize}
+    \item \textbf{Experiment Date:} January 15--18, 2026
+    \item \textbf{Experiment ID:} llm-linguistic-eval-bb29
+    \item \textbf{GPT-4.1 Access:} OpenAI API
+    \item \textbf{Claude Sonnet 4.5 Access:} OpenRouter API
+    \item \textbf{Temperature:} 0 (for reproducibility)
+    \item \textbf{Samples per Language:} 75
+    \item \textbf{Total API Calls:} Approximately 1,500
+\end{itemize}

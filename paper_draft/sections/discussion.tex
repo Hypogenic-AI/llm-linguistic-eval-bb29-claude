@@ -1,0 +1,66 @@
+\section{Discussion}
+\label{sec:discussion}
+
+Our results provide strong evidence for English-centric processing in large language models, with important nuances that have both scientific and practical implications.
+
+\subsection{Evidence for the ``Translate-Then-Reason'' Hypothesis}
+
+The asymmetric translate-test effect we observe provides compelling behavioral evidence for what we term the ``translate-then-reason'' hypothesis: models may internally process non-English inputs by mapping them to English-like representations before performing reasoning.
+
+Three patterns support this interpretation:
+
+\textbf{Large translate-test gains for non-European languages.} Claude's performance improves by 12--15 percentage points when Chinese, Arabic, Swahili, and Hindi inputs are replaced with English equivalents. If the model had truly language-agnostic representations, performance should not depend on input language for semantically identical content. The fact that English input dramatically improves performance suggests the model's reasoning occurs in a representation space closer to English.
+
+\textbf{Minimal translate-test effect for European languages.} German, French, and Spanish show little benefit from translation---indeed, some show slight degradation. This suggests these languages may already share sufficient features with English training data (vocabulary overlap, syntactic similarities, shared Latin roots) that the model can effectively process them without the internal ``translation'' step being a bottleneck.
+
+\textbf{Script-correlated performance patterns.} Languages with non-Latin scripts (Chinese, Arabic, Hindi) show larger translate-test gains than those with Latin scripts, even controlling for language family. Russian (Cyrillic) and Hindi (Devanagari) show larger gains than Turkish (Latin script, Turkic family). This suggests that tokenization and character-level processing may contribute to English-centric bias, consistent with findings that subword tokenizers trained primarily on English data handle non-Latin scripts less efficiently.
+
+\subsection{Model-Specific Interpretations}
+
+The striking difference between GPT-4.1 and Claude merits discussion:
+
+\textbf{Claude's stronger English-centric bias.} Claude shows dramatically larger translate-test gains and performance gaps than GPT-4.1. This could reflect: (1) differences in training data composition, with Claude potentially having an even higher proportion of English data; (2) architectural differences in how the models process multilingual input; or (3) differences in tokenizer design and vocabulary coverage.
+
+\textbf{GPT-4.1's surprising Swahili performance.} GPT-4.1 achieves 81.3\% on Swahili---its highest non-English performance---while Claude achieves only 72.0\%. This outlier suggests that training data coverage, rather than typological features alone, drives performance. Swahili uses Latin script and has relatively standardized orthography, which may help tokenization, but other factors specific to GPT-4.1's training may explain this advantage.
+
+\textbf{Variance vs.\ average tradeoff.} Claude achieves higher average accuracy (78.8\% vs.\ 76.8\%) but with much higher variance. This presents a deployment tradeoff: Claude may be preferred for European language applications, while GPT-4.1 may provide more equitable service for globally diverse user bases.
+
+\subsection{Implications for Practitioners}
+
+Our findings have direct implications for deploying LLMs in multilingual contexts:
+
+\textbf{Consider translate-first pipelines for non-European languages.} For Claude specifically, prepending a translation step can yield 12--15\% accuracy improvements for Chinese, Arabic, Swahili, and Hindi. This simple modification may be worth the added latency and cost for high-stakes applications.
+
+\textbf{Evaluate on your target languages, not just English.} Average benchmark performance can mask substantial language-specific weaknesses. Our results show that a model's English performance (or even its average multilingual performance) does not predict its performance on specific languages.
+
+\textbf{Consider model choice based on target demographics.} If your user base is primarily European, Claude's higher peak performance may be advantageous. For global deployment or applications targeting non-European populations, GPT-4.1's more uniform performance profile may be preferable.
+
+\subsection{Implications for Model Developers}
+
+Our results suggest several directions for improving multilingual capabilities:
+
+\textbf{Balanced multilingual training.} The strong correlation between translate-test gains and English training data bias suggests that more balanced training corpora could reduce this effect. Explicit attention to under-represented language families (Niger-Congo, Afro-Asiatic, Sino-Tibetan) during training may yield disproportionate improvements.
+
+\textbf{Tokenizer improvements.} The correlation between script and translate-test effect suggests that tokenizer design contributes to English-centric bias. Character-level or more language-agnostic tokenization approaches might help.
+
+\textbf{Translate-test as a diagnostic.} The methodology we employ provides a simple behavioral diagnostic for English-centric bias that can be applied to any model, including closed-source systems. We recommend model developers incorporate translate-test evaluations into their benchmarking suites.
+
+\subsection{Limitations}
+
+Several limitations affect the interpretation of our results:
+
+\textbf{Sample size.} With 75 samples per language, our statistical power is limited for detecting small effects. Larger-scale evaluation would provide more precise estimates and enable more fine-grained analysis.
+
+\textbf{Task specificity.} Natural language inference is one specific task; our findings may not generalize to all linguistic capabilities. Generation tasks, in particular, may show different patterns.
+
+\textbf{Prompt sensitivity.} Results may vary with different prompt formulations. While we used carefully localized prompts, alternative phrasings could yield different results.
+
+\textbf{API access.} Claude was accessed via OpenRouter rather than directly from Anthropic. While we have no reason to believe this affected results, differences in routing or model versions could introduce variation.
+
+\textbf{Lack of mechanistic analysis.} As closed-source models, we cannot verify the internal mechanisms producing the behavioral patterns we observe. Our translate-test effect is consistent with, but does not prove, internal translation mechanisms.
+
+\subsection{Broader Impact}
+
+The English-centric bias we document has implications for global AI equity. As LLMs become infrastructure for information access, education, healthcare, and government services, performance disparities across languages translate into disparities in service quality. Speakers of Chinese, Arabic, Hindi, and Swahili---collectively over 2 billion people---may receive systematically lower-quality AI services than English speakers.
+
+Our finding that translate-first pipelines can mitigate this gap is a double-edged sword: it provides a practical remedy but also places additional burden on non-English users and may introduce translation errors. A preferable long-term solution is training models that perform equitably across languages without requiring translation workarounds.

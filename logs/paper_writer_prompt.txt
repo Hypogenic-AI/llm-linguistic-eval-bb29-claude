@@ -1,0 +1,771 @@
+You are an academic paper writer. Generate a complete NEURIPS style paper
+based on the experiment results provided.
+
+════════════════════════════════════════════════════════════════════════════════
+                            EXPERIMENT REPORT
+════════════════════════════════════════════════════════════════════════════════
+
+# Evaluating Linguistic Performance in LLMs: A Cross-Lingual Analysis
+
+## Executive Summary
+
+This study investigates the hypothesis that Large Language Models (LLMs) primarily trained on English data exhibit performance degradation when processing non-English languages. We evaluated two state-of-the-art models—GPT-4.1 and Claude Sonnet 4.5—on the XNLI (Cross-lingual Natural Language Inference) benchmark across 10 languages from 6 language families. Our findings reveal significant English-centric bias in both models, with Claude showing more pronounced performance gaps (7.25% average drop vs. 3.56% for GPT-4.1). Critically, we demonstrate that the translate-to-English approach substantially improves performance on non-Latin script languages, suggesting models may internally benefit from English-centric processing pathways.
+
+## 1. Introduction
+
+### 1.1 Motivation
+
+Large Language Models are increasingly deployed globally, yet their training data is predominantly English. This raises fundamental questions about cross-lingual capabilities:
+
+1. **Do models underperform in non-English languages?** Despite multilingual capabilities, models may exhibit systematic biases toward English.
+
+2. **Is there implicit internal translation?** Models may process non-English input by implicitly translating to English before reasoning—a phenomenon we term the &#34;translate-then-reason&#34; hypothesis.
+
+3. **Which language families suffer most?** Performance degradation may vary systematically across typologically different languages.
+
+### 1.2 Research Questions
+
+- **RQ1**: Is there a measurable performance gap between English and other languages?
+- **RQ2**: Does the translate-to-English approach improve performance, suggesting internal English-centric processing?
+- **RQ3**: Are there consistent patterns across language families?
+- **RQ4**: Do different models exhibit similar or different multilingual performance patterns?
+
+## 2. Methodology
+
+### 2.1 Experimental Setup
+
+**Models Evaluated:**
+- GPT-4.1 (OpenAI)
+- Claude Sonnet 4.5 (Anthropic, via OpenRouter)
+
+**Dataset:** XNLI (Cross-lingual Natural Language Inference)
+- 75 samples per language
+- 10 languages tested
+- 3-way classification: entailment, contradiction, neutral
+
+**Languages by Family:**
+| Family | Languages |
+|--------|-----------|
+| Indo-European (Germanic) | English, German |
+| Indo-European (Romance) | French, Spanish |
+| Indo-European (Slavic) | Russian |
+| Indo-European (Indo-Aryan) | Hindi |
+| Sino-Tibetan | Chinese (Simplified) |
+| Afro-Asiatic (Semitic) | Arabic |
+| Niger-Congo (Bantu) | Swahili |
+| Turkic | Turkish |
+
+### 2.2 Evaluation Methods
+
+1. **Direct Evaluation**: Prompts and examples presented in the target language
+2. **Translate-Test**: Use parallel English samples for evaluation (simulating translation before processing)
+
+### 2.3 Prompt Design
+
+Prompts were localized for each language with native-language instructions:
+- English: &#34;Given a premise and hypothesis, determine if the relationship is: entailment, contradiction, or neutral.&#34;
+- Chinese: &#34;给定一个前提和假设，判断它们之间的关系是：蕴含、矛盾还是中立。&#34;
+- Arabic: &#34;بالنظر إلى المقدمة والفرضية، حدد ما إذا كانت العلاقة هي: استلزام أو تناقض أو محايدة.&#34;
+- (etc. for all languages)
+
+## 3. Results
+
+### 3.1 Direct Evaluation Performance
+
+| Language | GPT-4.1 | Claude Sonnet 4.5 |
+|----------|---------|-------------------|
+| English | 80.0% | **85.3%** |
+| German | **80.0%** | **86.7%** |
+| French | 77.3% | **88.0%** |
+| Spanish | 78.7% | **82.7%** |
+| Chinese | **76.0%** | 70.7% |
+| Arabic | **76.0%** | 70.7% |
+| Swahili | **81.3%** | 72.0% |
+| Hindi | 70.7% | **73.3%** |
+| Russian | 70.7% | **76.0%** |
+| Turkish | 77.3% | **82.7%** |
+| **Average** | 76.8% | **78.8%** |
+
+**Key Findings:**
+- Claude outperforms GPT-4.1 overall (78.8% vs 76.8%)
+- Claude excels in European languages (German, French, Spanish, Turkish, Russian)
+- GPT-4.1 performs better in Chinese, Arabic, and notably Swahili (+9.3%)
+
+### 3.2 Performance Gap Analysis
+
+**English-to-Target Language Drop:**
+
+| Model | Avg Gap | Max Gap | Most Affected |
+|-------|---------|---------|---------------|
+| GPT-4.1 | 3.56% | 9.33% | Hindi, Russian |
+| Claude Sonnet 4.5 | 7.25% | 14.66% | Chinese, Arabic, Swahili |
+
+**Observation:** Claude shows higher variance and larger gaps, suggesting stronger English-centricity despite higher overall accuracy.
+
+### 3.3 Translate-Test Effect
+
+The translate-test approach uses English parallel samples, simulating &#34;translate first, then reason&#34;:
+
+| Language | GPT-4.1 Change | Claude Change |
+|----------|----------------|---------------|
+| German | -2.7% | -1.3% |
+| French | +1.3% | -2.7% |
+| Spanish | -1.3% | +2.7% |
+| **Chinese** | +2.7% | **+14.7%** |
+| **Arabic** | 0.0% | **+14.7%** |
+| **Swahili** | -1.3% | **+13.3%** |
+| **Hindi** | +8.0% | **+12.0%** |
+| **Russian** | +5.3% | **+9.3%** |
+| Turkish | +2.7% | +2.7% |
+
+**Critical Finding:** For Claude, translate-test dramatically improves performance on non-European languages:
+- Chinese: +14.7%
+- Arabic: +14.7%
+- Swahili: +13.3%
+- Hindi: +12.0%
+
+This strongly supports the hypothesis that Claude may have more English-centric internal processing.
+
+### 3.4 Language Family Analysis
+
+**GPT-4.1 Performance by Family:**
+- Indo-European: 75.5% (highly variable)
+- Niger-Congo: 81.3% (Swahili surprisingly high)
+- Turkic: 77.3%
+- Sino-Tibetan: 76.0%
+- Afro-Asiatic: 76.0%
+
+**Claude Sonnet 4.5 Performance by Family:**
+- Indo-European: 81.6% (strong)
+- Turkic: 82.7%
+- Sino-Tibetan: 70.7% (weak)
+- Afro-Asiatic: 70.7% (weak)
+- Niger-Congo: 72.0% (weak)
+
+Claude shows clear preference for Indo-European languages while struggling with non-Indo-European families.
+
+## 4. Discussion
+
+### 4.1 Evidence for English-Centric Processing
+
+Our results provide strong evidence for the &#34;translate-then-reason&#34; hypothesis, particularly for Claude:
+
+1. **Large translate-test gains** for non-European languages suggest the model performs better when input is already in English, even for the same logical content.
+
+2. **Minimal translate-test effect for European languages** (especially Romance/Germanic) suggests these languages may share enough features with English training data.
+
+3. **Performance correlation with training data availability** - European languages likely have more representation in training corpora.
+
+### 4.2 Model-Specific Findings
+
+**GPT-4.1:**
+- More consistent cross-lingual performance (lower variance)
+- Better handling of non-European scripts (Arabic, Chinese, Swahili)
+- Smaller English-centric bias
+
+**Claude Sonnet 4.5:**
+- Higher peak performance in European languages
+- Stronger English-centric bias
+- Benefits dramatically from translate-test approach
+
+### 4.3 Implications
+
+1. **For Practitioners:** Consider translate-first pipelines for non-European languages when using Claude.
+
+2. **For Model Developers:** Explicit attention to balanced multilingual training, especially for under-represented language families.
+
+3. **For Researchers:** The translate-test paradigm provides a diagnostic tool for identifying English-centric bias.
+
+### 4.4 Limitations
+
+1. **Sample Size:** 75 samples per language limits statistical power
+2. **Task Specificity:** NLI may not generalize to all linguistic tasks
+3. **Prompt Sensitivity:** Results may vary with different prompt formulations
+4. **Model Access:** Claude accessed via OpenRouter may differ from direct API
+
+## 5. Conclusion
+
+This study demonstrates measurable English-centric bias in state-of-the-art LLMs. Key contributions:
+
+1. **Quantified performance gaps** between English and 9 other languages across 2 major models
+
+2. **Demonstrated translate-test improvement** as evidence for implicit English-centric processing, particularly pronounced in Claude
+
+3. **Identified language family patterns** showing systematic disadvantage for non-Indo-European languages
+
+4. **Provided practical recommendations** for multilingual deployment
+
+The findings underscore the need for more balanced multilingual training and evaluation in LLM development. Future work should investigate fine-grained linguistic features driving these performance disparities and develop methods to mitigate English-centric bias without sacrificing overall capability.
+
+## 6. Figures
+
+### 6.1 Accuracy Comparison
+![Accuracy Comparison](results/figures/accuracy_comparison.png)
+
+### 6.2 Performance Gap Heatmap
+![Performance Gap Heatmap](results/figures/performance_gap_heatmap.png)
+
+### 6.3 Translate-Test Effect
+![Translate-Test Effect](results/figures/translate_test_effect.png)
+
+### 6.4 Language Family Analysis
+![Language Family Analysis](results/figures/language_family_analysis.png)
+
+### 6.5 Model Comparison Radar
+![Model Comparison Radar](results/figures/model_comparison_radar.png)
+
+## Appendix: Raw Results
+
+### A.1 GPT-4.1 Direct Evaluation
+| Language | Accuracy | Correct | Total |
+|----------|----------|---------|-------|
+| English | 80.00% | 60 | 75 |
+| German | 80.00% | 60 | 75 |
+| French | 77.33% | 58 | 75 |
+| Spanish | 78.67% | 59 | 75 |
+| Chinese | 76.00% | 57 | 75 |
+| Arabic | 76.00% | 57 | 75 |
+| Swahili | 81.33% | 61 | 75 |
+| Hindi | 70.67% | 53 | 75 |
+| Russian | 70.67% | 53 | 75 |
+| Turkish | 77.33% | 58 | 75 |
+
+### A.2 Claude Sonnet 4.5 Direct Evaluation
+| Language | Accuracy | Correct | Total |
+|----------|----------|---------|-------|
+| English | 85.33% | 64 | 75 |
+| German | 86.67% | 65 | 75 |
+| French | 88.00% | 66 | 75 |
+| Spanish | 82.67% | 62 | 75 |
+| Chinese | 70.67% | 53 | 75 |
+| Arabic | 70.67% | 53 | 75 |
+| Swahili | 72.00% | 54 | 75 |
+| Hindi | 73.33% | 55 | 75 |
+| Russian | 76.00% | 57 | 75 |
+| Turkish | 82.67% | 62 | 75 |
+
+### A.3 Translate-Test Results (Both Models)
+All translate-test evaluations achieved 85.33% (64/75) for Claude, indicating consistent English baseline performance across parallel translations.
+
+---
+
+*Report generated: January 18, 2026*
+*Experiment ID: llm-linguistic-eval-bb29*
+
+
+════════════════════════════════════════════════════════════════════════════════
+                            RESEARCH PLAN
+════════════════════════════════════════════════════════════════════════════════
+
+# Research Plan: Evaluating Linguistic Performance in LLMs
+
+## Motivation &amp; Novelty Assessment
+
+### Why This Research Matters
+Large language models are increasingly being deployed at national scale in non-English-speaking countries (e.g., XAI&#39;s partnership with Venezuela, OpenAI with Estonia), yet these models are predominantly trained on English data. This creates a fundamental tension: end-users expect high-quality responses in their native languages, but models may internally process concepts through an English-centric lens. Understanding the extent of this bias and whether models employ implicit internal translation mechanisms is critical for:
+1. **Equitable AI deployment**: Ensuring non-English speakers receive comparable service quality
+2. **Model improvement**: Identifying where multilingual capabilities fall short
+3. **Scientific understanding**: Illuminating how neural networks represent language and meaning
+
+### Gap in Existing Work
+Based on the literature review, several gaps exist:
+1. **Limited empirical testing across LLM families**: Most studies focus on a single model (e.g., Llama-2) - we need comparative data across GPT, Claude, and other leading models
+2. **Inconsistent methodology**: Studies use different datasets and metrics, making cross-comparison difficult
+3. **API-based model opacity**: While Wendler et al. (2024) used mechanistic interpretability on open-source models, API-based models (GPT-4, Claude) cannot be analyzed at the layer level - but we can still measure their behavioral manifestations
+4. **Language family analysis gaps**: Limited systematic comparison across language families (Indo-European, Sino-Tibetan, Afro-Asiatic, etc.)
+
+### Our Novel Contribution
+This research provides:
+1. **Cross-model comparison**: First systematic comparison of multilingual performance across GPT-4.1, Claude Sonnet 4.5, and other 2024-2025 frontier models
+2. **Behavioral evidence for internal translation**: Testing whether translating inputs to English before model processing improves non-English performance (if it does, models may already be doing this internally)
+3. **Language family analysis**: Systematic breakdown of performance by language family and typological features
+4. **Practical recommendations**: Actionable insights for deploying LLMs in multilingual contexts
+
+### Experiment Justification
+
+**Experiment 1: Cross-Language Performance Baseline**
+- **Why needed?** Establishes the empirical foundation - we must first document the extent of English-centric bias across multiple state-of-the-art models
+- **What we learn**: Quantifies performance gaps between English and other languages
+
+**Experiment 2: Translate-to-English Strategy Testing**
+- **Why needed?** Tests the implicit translation hypothesis behaviorally - if translating to English first improves performance, it suggests models internally process closer to English
+- **What we learn**: Whether explicit translation compensates for English-centric training
+
+**Experiment 3: Consistency Analysis Across Languages**
+- **Why needed?** Checks if models give semantically equivalent responses across languages
+- **What we learn**: Whether models access the same underlying &#34;knowledge&#34; regardless of input language
+
+---
+
+## Research Question
+Do large language models trained predominantly on English data exhibit measurable performance disparities when deployed in non-English languages, and does explicit translation to English improve performance (suggesting implicit internal translation mechanisms)?
+
+## Background and Motivation
+LLMs are increasingly deployed globally, yet their training data is predominantly English. Wendler et al. (2024) showed that Llama-2 appears to use English as an internal &#34;pivot language&#34; - intermediate layers decode English tokens even for non-English inputs. This raises important questions about:
+- How much worse do models perform on non-English tasks?
+- Do frontier API models (GPT-4, Claude) exhibit similar English-centric behavior?
+- Can explicit translation strategies mitigate performance gaps?
+
+## Hypothesis Decomposition
+**Main Hypothesis**: LLMs trained on predominantly English data underperform on non-English tasks and may possess implicit internal translation mechanisms.
+
+**Sub-hypotheses**:
+1. **H1**: LLMs achieve significantly higher accuracy on English inputs compared to equivalent inputs in other languages (performance gap hypothesis)
+2. **H2**: Languages typologically distant from English (e.g., Sino-Tibetan, Afro-Asiatic) show larger performance gaps than closer languages (Indo-European)
+3. **H3**: Translating non-English inputs to English before processing (&#34;translate-test&#34;) improves model performance, suggesting models internally operate closer to English
+4. **H4**: Different frontier models (GPT-4, Claude) exhibit similar patterns of English-centric bias
+
+## Proposed Methodology
+
+### Approach
+We will evaluate multiple frontier LLMs on standardized multilingual benchmarks (XNLI, XCOPA, SIB-200), comparing:
+1. Direct performance in each language
+2. Performance with translate-to-English preprocessing
+3. Cross-model consistency patterns
+
+### Experimental Steps
+
+**Step 1: Dataset Preparation**
+- Load XNLI (15 languages) for natural language inference
+- Load SIB-200 (8 languages) for topic classification
+- Sample 100-200 examples per language for efficient API calls
+- Rationale: These datasets have parallel test sets ensuring fair cross-language comparison
+
+**Step 2: Baseline Evaluation (Direct Prompting)**
+- Evaluate GPT-4.1, Claude Sonnet 4.5 on each language directly
+- Use consistent prompting templates translated to target language
+- Collect accuracy metrics
+- Rationale: Establishes baseline performance in native language
+
+**Step 3: Translate-Test Evaluation**
+- Translate non-English inputs to English (using the models themselves)
+- Re-evaluate on the translated versions
+- Compare to direct performance
+- Rationale: Tests whether explicit translation improves performance (supporting internal translation hypothesis)
+
+**Step 4: Analysis by Language Family**
+- Group languages by family (Indo-European, Sino-Tibetan, etc.)
+- Compute performance gaps relative to English
+- Test for correlation with linguistic distance
+- Rationale: Tests whether typologically closer languages perform better
+
+### Baselines
+1. **Random baseline**: Expected accuracy for random guessing
+2. **English performance**: Performance on English as upper bound
+3. **Cross-model comparison**: GPT-4 vs Claude performance
+
+### Evaluation Metrics
+- **Accuracy**: Primary metric for classification tasks
+- **Performance Gap (PG)**: (English accuracy - target language accuracy), measuring English-centric bias
+- **Translate Gain (TG)**: (Translated performance - Direct performance), measuring whether translation helps
+- **Confidence intervals**: Bootstrap 95% CI for all metrics
+
+### Statistical Analysis Plan
+- **Paired t-tests**: Compare English vs. other languages (within model)
+- **One-way ANOVA**: Compare across language families
+- **Correlation analysis**: Language distance vs. performance gap
+- **Effect size**: Cohen&#39;s d for key comparisons
+- **Significance level**: α = 0.05, with Bonferroni correction for multiple comparisons
+
+## Expected Outcomes
+1. **Supporting H1**: English accuracy &gt; 10% higher than average non-English accuracy
+2. **Supporting H2**: Indo-European languages show smaller gap than Sino-Tibetan/Afro-Asiatic
+3. **Supporting H3**: Translate-test improves performance by &gt; 5% for non-English languages
+4. **Supporting H4**: Both GPT-4 and Claude show similar English-centric patterns
+
+**Alternative outcomes**:
+- If translate-test does NOT improve performance: Models may have learned genuine multilingual representations (not just English-centric)
+- If non-Indo-European languages perform comparably: Models may be more multilingual than expected
+
+## Timeline and Milestones
+1. Environment setup and dataset preparation: 30 min
+2. Implement evaluation pipeline: 60 min
+3. Run baseline experiments: 60 min
+4. Run translate-test experiments: 45 min
+5. Statistical analysis and visualization: 45 min
+6. Documentation and report writing: 30 min
+
+## Potential Challenges
+1. **API rate limits**: Mitigated by efficient batching and smaller sample sizes
+2. **Translation quality**: Use same models for translation to keep conditions comparable
+3. **Prompt sensitivity**: Test multiple prompt formats and report variance
+4. **Cost management**: Sample ~100 examples per language to stay within budget
+
+## Success Criteria
+1. Clear documentation of performance gaps across languages
+2. Statistical significance (p &lt; 0.05) for key hypotheses
+3. Interpretable visualizations showing language family patterns
+4. Actionable insights about translate-test effectiveness
+5. Reproducible code and methodology
+
+---
+
+## Implementation Details
+
+### Models to Evaluate
+1. **GPT-4.1** (OpenAI) - via API
+2. **Claude Sonnet 4.5** (Anthropic) - via API
+
+### Datasets
+1. **XNLI** (15 languages): Natural language inference - entailment, contradiction, neutral
+2. **SIB-200** (8 languages downloaded): Topic classification - 7 categories
+
+### Languages by Family
+- **Indo-European Germanic**: English (en), German (de)
+- **Indo-European Romance**: French (fr), Spanish (es)
+- **Indo-European Slavic**: Russian (ru), Bulgarian (bg)
+- **Indo-European Indo-Iranian**: Hindi (hi), Urdu (ur)
+- **Sino-Tibetan**: Chinese (zh)
+- **Afro-Asiatic**: Arabic (ar)
+- **Koreanic**: Korean (ko)
+- **Japonic**: Japanese (ja)
+- **Austroasiatic**: Vietnamese (vi)
+- **Turkic**: Turkish (tr)
+- **Niger-Congo**: Swahili (sw)
+- **Tai-Kadai**: Thai (th)
+- **Dravidian**: Tamil (ta)
+
+### Sample Size Calculation
+- Per language: 100 examples (sufficient for detecting 10% difference with 80% power)
+- Total API calls estimate: ~1,500-2,000 (feasible within budget)
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          LITERATURE REVIEW
+════════════════════════════════════════════════════════════════════════════════
+
+# Literature Review: Evaluating Linguistic Performance in LLMs
+
+## Research Area Overview
+
+This literature review examines research on multilingual capabilities of Large Language Models (LLMs), with a focus on: (1) the hypothesis that English-centric training leads to performance disparities across languages, (2) evidence for implicit internal translation mechanisms (&#34;English as pivot language&#34;), and (3) methods and benchmarks for evaluating cross-lingual performance.
+
+The field has seen rapid growth, with key findings suggesting that LLMs trained predominantly on English data exhibit significant English-centric bias. Recent mechanistic interpretability work provides evidence that these models may internally represent concepts closer to English, even when processing non-English inputs.
+
+---
+
+## Key Papers
+
+### Paper 1: Do Llamas Work in English? On the Latent Language of Multilingual Transformers
+- **Authors**: Chris Wendler, Veniamin Veselovsky, Giovanni Monea, Robert West
+- **Year**: 2024
+- **Source**: arXiv:2402.10588
+- **Key Contribution**: First empirical investigation of whether LLMs use English as an internal pivot language
+- **Methodology**:
+  - Applied &#34;logit lens&#34; technique to track intermediate embeddings through transformer layers
+  - Analyzed Llama-2 family models with carefully constructed non-English prompts
+  - Identified three distinct phases in forward pass processing
+- **Key Findings**:
+  - Middle layers decode semantically correct tokens in English before final layer outputs in target language
+  - Three phases: (1) far from output embeddings, (2) English version decoded, (3) target language output
+  - Evidence suggests abstract &#34;concept space&#34; lies closer to English than other languages
+- **Code Available**: Yes - https://github.com/epfl-dlab/llm-latent-language
+- **Relevance**: Directly addresses our hypothesis about implicit internal translation mechanisms
+
+### Paper 2: Don&#39;t Trust ChatGPT when your Question is not in English
+- **Authors**: Xiang Zhang, Senyu Li, Bradley Hauer, Ning Shi, Grzegorz Kondrak
+- **Year**: 2023
+- **Source**: arXiv:2305.16339
+- **Key Contribution**: Systematic framework for categorizing and evaluating multilingual LLM abilities
+- **Methodology**:
+  - Proposed three bilingualism types for LLMs: compound, coordinate, subordinate
+  - Introduced &#34;Response Back-Translation&#34; (RBT) method for evaluation
+  - Categorized tasks into: Reasoning (least language impact), Knowledge Access, Articulation (most impact)
+- **Key Findings**:
+  - GPT achieves higher performance when tasks presented in English
+  - Better performance on &#34;translation-equivariant&#34; tasks (correct output doesn&#39;t depend on input language)
+  - LLMs exhibit mixture of coordinate and subordinate bilingualism
+- **Datasets Used**: Multiple NLP benchmarks across languages
+- **Relevance**: Provides framework for understanding how language choice affects LLM performance
+
+### Paper 3: Is Translation All You Need? A Study on Solving Multilingual Tasks with LLMs
+- **Authors**: Chaoqun Liu, Wenxuan Zhang, Yiran Zhao, Anh Tuan Luu, Lidong Bing
+- **Year**: 2024
+- **Source**: arXiv:2403.10258
+- **Key Contribution**: Comprehensive evaluation of translation strategies for multilingual LLM tasks
+- **Methodology**:
+  - Compared translate-to-English approach vs. native language prompting
+  - Evaluated on both NLP benchmarks and real-world user queries
+  - Tested English-centric and non-English-centric LLMs
+- **Key Findings**:
+  - Translation to English improves performance on NLP tasks for English-centric LLMs
+  - NOT universally optimal: culture-related tasks benefit from native language prompting
+  - Non-English-centric LLMs behave differently from English-centric ones
+- **Datasets Used**: MGSM, XCOPA, XNLI, PAWS-X, MKQA, XL-Sum (24 languages total)
+- **Code Available**: Yes - https://github.com/DAMO-NLP-SG/translation-all-you-need
+- **Relevance**: Directly tests whether translation is the optimal strategy for multilingual tasks
+
+### Paper 4: XTREME: A Massively Multilingual Multi-task Benchmark
+- **Authors**: Junjie Hu, Sebastian Ruder, Aditya Siddhant, Graham Neubig, et al.
+- **Year**: 2020
+- **Source**: arXiv:2003.11080 (ICML 2020)
+- **Key Contribution**: First comprehensive multilingual benchmark covering 40 languages and 9 tasks
+- **Methodology**:
+  - Zero-shot cross-lingual transfer evaluation
+  - Covers sentence classification, structured prediction, question answering, retrieval
+  - Includes typologically diverse languages spanning 12 language families
+- **Key Findings**:
+  - Human performance achieved in English, but significant gap in other languages
+  - Largest gaps for syntactic and sentence retrieval tasks
+  - Performance varies widely: Indo-European languages perform better than Sino-Tibetan, Japonic, Koreanic, Niger-Congo
+- **Baselines**: mBERT, XLM-R, machine translation approaches
+- **Evaluation Metrics**: Task-specific (accuracy, F1, exact match, etc.)
+- **Relevance**: Foundational benchmark for evaluating cross-lingual transfer
+
+### Paper 5: SIB-200: A Simple, Inclusive, and Big Evaluation Dataset
+- **Authors**: David Ifeoluwa Adelani, Hannah Liu, Xiaoyu Shen, et al.
+- **Year**: 2023
+- **Source**: arXiv:2309.07445
+- **Key Contribution**: Topic classification benchmark covering 205 languages and dialects
+- **Methodology**:
+  - Based on Flores-200 machine translation corpus
+  - Annotated English portion, extended to 204 other languages via parallel sentences
+  - 7 topic categories: science/technology, travel, politics, sports, health, entertainment, geography
+- **Key Findings**:
+  - Large gap between high-resource and low-resource language performance
+  - Languages unseen during pre-training, from under-represented families, and from Africa/Americas/Oceania/Southeast Asia have lowest performance
+  - Scaling languages without scaling domains unhelpful (Glot-500 underperforms XLM-R)
+- **Dataset Size**: 1,004 sentences per language (701 train, 99 dev, 204 test)
+- **Code/Data Available**: https://github.com/dadelani/SIB-200
+- **Relevance**: Largest NLU benchmark, good for testing hypothesis about low-resource languages
+
+### Paper 6: BUFFET: Benchmarking Large Language Models for Few-shot Cross-lingual Transfer
+- **Authors**: Akari Asai, Sneha Kudugunta, Xinyan Velocity Yu, et al.
+- **Year**: 2023
+- **Source**: arXiv:2305.14857
+- **Key Contribution**: Few-shot cross-lingual transfer benchmark with 15 tasks across 54 languages
+- **Methodology**:
+  - Unified sequence-to-sequence format
+  - Fixed few-shot examples (k=32) for fair comparison
+  - Compared in-context learning vs. fine-tuning
+- **Key Findings**:
+  - ChatGPT with in-context learning often performs worse than smaller fine-tuned mT5 models
+  - Instruction-tuned models struggle with few-shot samples
+  - Significant room for improvement in few-shot cross-lingual transfer
+- **Tasks**: NLI, paraphrase detection, sentiment analysis, QA, NER, summarization, etc.
+- **Code/Data Available**: https://buffetfs.github.io/
+- **Relevance**: Good for testing few-shot multilingual capabilities
+
+### Paper 7: XLM-RoBERTa: Unsupervised Cross-lingual Representation Learning at Scale
+- **Authors**: Alexis Conneau, Kartikay Khandelwal, Naman Goyal, et al.
+- **Year**: 2019
+- **Source**: arXiv:1911.02116
+- **Key Contribution**: Foundational multilingual pre-trained model (100 languages)
+- **Methodology**:
+  - Trained on 2TB of filtered CommonCrawl data
+  - Multilingual masked language modeling
+- **Key Findings**:
+  - Significant performance gains on cross-lingual transfer tasks
+  - Outperformed previous multilingual models (mBERT)
+- **Relevance**: Baseline model for multilingual evaluation
+
+---
+
+## Common Methodologies
+
+### Evaluation Approaches
+1. **Zero-shot cross-lingual transfer**: Train on English, evaluate on other languages (XTREME, XGLUE)
+2. **Few-shot cross-lingual transfer**: Limited examples in target language (BUFFET)
+3. **Translate-test**: Translate inputs to English, use English model (Liu et al., 2024)
+4. **Mechanistic interpretability**: Logit lens to analyze internal representations (Wendler et al., 2024)
+
+### Transfer Methods
+- **Fine-tuning**: Train model parameters on task data
+- **In-context learning (ICL)**: Provide examples in prompt without parameter updates
+- **Multilingual adaptive fine-tuning (MAFT)**: Further pre-training on target language data
+
+---
+
+## Standard Baselines
+
+| Model | Languages | Parameters | Notes |
+|-------|-----------|------------|-------|
+| mBERT | 104 | 110M | First widely-used multilingual encoder |
+| XLM-R | 100 | 270M-3.5B | Strong baseline for cross-lingual tasks |
+| mT5 | 101 | 300M-13B | Encoder-decoder, good for generation |
+| BLOOM | 46 | Up to 176B | Open-source multilingual LLM |
+| Llama-2 | ~20 | 7B-70B | English-centric but shows multilingual ability |
+
+---
+
+## Evaluation Metrics
+
+- **Accuracy**: Classification tasks (topic classification, NLI)
+- **F1 Score**: Token-level tasks (NER), QA (token overlap)
+- **Exact Match (EM)**: Question answering
+- **ROUGE-1/L**: Summarization and generation tasks
+- **BLEU**: Translation-related tasks
+
+---
+
+## Datasets in the Literature
+
+| Dataset | Languages | Task | Size | Source |
+|---------|-----------|------|------|--------|
+| XTREME | 40 | Multiple NLU | Varies | Multiple sources |
+| SIB-200 | 205 | Topic classification | ~1K/lang | Flores-200 |
+| BUFFET | 54 | 15 diverse tasks | Fixed k=32 | Multiple sources |
+| MGSM | 10 | Math reasoning | 250/lang | Manually translated |
+| XNLI | 15 | NLI | 5K/lang | MultiNLI translated |
+| XCOPA | 11 | Commonsense | 1K/lang | COPA translated |
+| MBBQ | 9 | Bias evaluation | ~2K/lang | BBQ translated |
+
+---
+
+## Gaps and Opportunities
+
+### Current Gaps
+1. **Mechanistic understanding**: Limited research on HOW models process non-English internally
+2. **Low-resource languages**: Most benchmarks cover &lt;100 languages; world has ~7,000
+3. **Cultural knowledge**: Models may have cultural biases toward English-speaking cultures
+4. **Domain coverage**: Pre-training often lacks domain diversity beyond web text
+
+### Research Opportunities
+1. **Testing English pivot hypothesis**: Use mechanistic interpretability to verify/quantify internal translation
+2. **Cross-lingual knowledge consistency**: Do models give same answers in different languages?
+3. **Language-specific vs. language-agnostic representations**: Where in the model are they separated?
+
+---
+
+## Recommendations for Our Experiment
+
+### Recommended Datasets
+1. **MGSM** (Multilingual Grade School Math): Tests reasoning with clear right/wrong answers across 10 languages
+2. **SIB-200**: Topic classification across 205 languages, tests breadth
+3. **XNLI/XCOPA**: NLU tasks with validated translations
+4. **FLORES-200**: Parallel corpus for translation-based analysis
+
+### Recommended Baselines
+1. **Llama-2 (7B/13B)**: Primary subject for English pivot analysis
+2. **XLM-R**: Strong multilingual encoder baseline
+3. **mT5-base**: Encoder-decoder alternative
+4. **GPT-4/Claude**: Comparison with proprietary models
+
+### Recommended Metrics
+1. **Accuracy** for classification tasks
+2. **Performance gap** (English - target language) to quantify English bias
+3. **Correlation with language resource size** to test low-resource hypothesis
+
+### Methodological Considerations
+1. **Control for translation quality**: Use human-translated test sets when available
+2. **Language family analysis**: Group results by typological similarity
+3. **Prompt language experiments**: Same task with prompts in different languages
+4. **Layer-wise analysis**: Use logit lens to track when language-specific info emerges
+
+---
+
+## Key References
+
+1. Wendler et al. (2024). &#34;Do Llamas Work in English?&#34; arXiv:2402.10588
+2. Zhang et al. (2023). &#34;Don&#39;t Trust ChatGPT when your Question is not in English&#34; arXiv:2305.16339
+3. Liu et al. (2024). &#34;Is Translation All You Need?&#34; arXiv:2403.10258
+4. Hu et al. (2020). &#34;XTREME: A Massively Multilingual Multi-task Benchmark&#34; arXiv:2003.11080
+5. Adelani et al. (2023). &#34;SIB-200&#34; arXiv:2309.07445
+6. Asai et al. (2023). &#34;BUFFET&#34; arXiv:2305.14857
+7. Conneau et al. (2019). &#34;XLM-RoBERTa&#34; arXiv:1911.02116
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          PAPER REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+Generate a complete academic paper with the following structure:
+
+1. TITLE
+   - Clear, specific, informative
+   - Should convey main finding or contribution
+
+2. ABSTRACT (150-250 words)
+   - Problem statement
+   - Approach
+   - Key results
+   - Significance
+
+3. INTRODUCTION
+   - Research problem and motivation
+   - Gap in existing work
+   - Our contribution (be specific)
+   - Paper organization
+
+4. RELATED WORK
+   - Organized by theme/approach
+   - Position our work relative to prior work
+   - Cite papers from literature review
+
+5. METHODOLOGY
+   - Clear description of approach
+   - Experimental setup
+   - Datasets used
+   - Evaluation metrics
+   - Baselines
+
+6. RESULTS
+   - Present results with tables and figures
+   - Statistical analysis
+   - Comparison to baselines
+   - Ablation studies (if applicable)
+
+7. DISCUSSION
+   - Interpretation of results
+   - Limitations
+   - Broader implications
+
+8. CONCLUSION
+   - Summary of contributions
+   - Key findings
+   - Future work
+
+9. REFERENCES
+   - BibTeX format
+   - All cited papers
+
+════════════════════════════════════════════════════════════════════════════════
+                          OUTPUT FORMAT
+════════════════════════════════════════════════════════════════════════════════
+
+Create a MODULAR LaTeX project with the following directory structure:
+
+paper_draft/
+├── main.tex              # Main file that imports all sections
+├── references.bib        # BibTeX references
+├── sections/
+│   ├── abstract.tex      # Abstract content
+│   ├── introduction.tex  # Introduction section
+│   ├── related_work.tex  # Related work section
+│   ├── methodology.tex   # Methodology section
+│   ├── results.tex       # Results section
+│   ├── discussion.tex    # Discussion section
+│   └── conclusion.tex    # Conclusion section
+├── figures/              # Directory for any generated figures
+├── tables/               # Directory for complex standalone tables
+└── appendix/             # Directory for appendix sections (if needed)
+
+INSTRUCTIONS:
+1. First, create the directory structure above (mkdir -p paper_draft/sections paper_draft/figures paper_draft/tables paper_draft/appendix)
+2. Write main.tex that:
+   - Uses \documentclass[final]{neurips_2025} (or appropriate style)
+   - Includes necessary packages
+   - Uses \input{sections/abstract.tex} etc. to include each section
+   - Uses \bibliography{references} for references
+3. Write each section file with COMPLETE content (no placeholders)
+4. Each section file should include its \section{} command
+5. Write references.bib with all citations in BibTeX format
+6. After writing all files, compile the paper:
+   cd paper_draft && pdflatex -interaction=nonstopmode main.tex && bibtex main && pdflatex -interaction=nonstopmode main.tex && pdflatex -interaction=nonstopmode main.tex
+
+This modular structure allows humans to easily:
+- Edit individual sections without navigating a large file
+- Track changes per section
+- Reuse sections across different paper versions
+
+════════════════════════════════════════════════════════════════════════════════
+                          QUALITY REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+- Academic tone throughout
+- All claims must be supported by data from the experiment report
+- Proper citations using \cite{} commands
+- Clear figures and tables with proper captions
+- NO placeholder text - every section must have real content
+- The paper MUST compile without errors
+- If compilation fails, debug and fix the LaTeX errors
